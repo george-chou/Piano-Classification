@@ -80,7 +80,7 @@ def Net(backbone='alexnet'):
 
     model.classifier = torch.nn.Sequential(
         nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
+        nn.Linear(512 * 7 * 7, 4096),
         nn.ReLU(inplace=True),
         nn.Dropout(),
         nn.Linear(4096, 4096),
@@ -101,7 +101,7 @@ def Net_eval(saved_model_path, backbone):
     model = eval('models.%s()' % backbone)
     model.classifier = torch.nn.Sequential(
         nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
+        nn.Linear(512 * 7 * 7, 4096),
         nn.ReLU(inplace=True),
         nn.Dropout(),
         nn.Linear(4096, 4096),

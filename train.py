@@ -200,7 +200,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='alexnet',
+    parser.add_argument('--model', type=str, default='vgg19_bn',
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 
