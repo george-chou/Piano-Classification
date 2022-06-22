@@ -57,7 +57,7 @@ def url_download(url: str, fname: str):
             bar.update(size)
 
 
-def download_model(backbone='alexnet'):
+def download_model(backbone='densenet201'):
     pre_model_url = model_urls[backbone]
     model_dir = './model/'
     pre_model_path = model_dir + (pre_model_url.split('/')[-1])
@@ -70,27 +70,31 @@ def download_model(backbone='alexnet'):
     return pre_model_path
 
 
-def Net(backbone='alexnet'):
+def Classifier():
+    return torch.nn.Sequential(
+        # nn.Dropout(),
+        # nn.Linear(256 * 6 * 6, 4096),
+        # nn.ReLU(inplace=True),
+        # nn.Dropout(),
+        # nn.Linear(4096, 4096),
+        # nn.ReLU(inplace=True),
+        # nn.Dropout(),
+        # nn.Linear(4096, 1000),
+        # nn.ReLU(inplace=True),
+        nn.Linear(in_features=1920, out_features=len(classes), bias=True)
+    )
+
+
+def Net(backbone='densenet201'):
     model = eval('models.%s()' % backbone)
     pre_model_path = download_model(backbone)
-    model.load_state_dict(torch.load(pre_model_path))
+    checkpoint = torch.load(pre_model_path)
+    model.load_state_dict(checkpoint, False)
 
     for parma in model.parameters():
         parma.requires_grad = False
 
-    model.classifier = torch.nn.Sequential(
-        nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 1000),
-        nn.ReLU(inplace=True),
-        nn.Linear(1000, len(classes))
-    )
-
+    model.classifier = Classifier()
     model.train()
 
     return model
@@ -99,19 +103,7 @@ def Net(backbone='alexnet'):
 def Net_eval(saved_model_path, backbone):
 
     model = eval('models.%s()' % backbone)
-    model.classifier = torch.nn.Sequential(
-        nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 1000),
-        nn.ReLU(inplace=True),
-        nn.Linear(1000, len(classes))
-    )
-
+    model.classifier = Classifier()
     checkpoint = torch.load(saved_model_path)
     model.load_state_dict(checkpoint, False)
     model.eval()

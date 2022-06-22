@@ -1,4 +1,4 @@
-from train import train, time_stamp
+from train import train, time_stamp, backbone_network
 import os
 import torch
 import argparse
@@ -29,7 +29,7 @@ def embed(audio_path):
 
 def embed_img(img_path, rm_cache=True):
     transform = transforms.Compose([
-        # transforms.Resize([224, 224]),
+        transforms.Resize([224, 224]),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
@@ -63,7 +63,7 @@ def eval(log_dir='./logs', history=''):
         print('No history found, start a new term of training...')
         train()
 
-    model = Net_eval(saved_model_path, 'alexnet')
+    model = Net_eval(saved_model_path, backbone_network)
     input = embed(tag).unsqueeze(0)
 
     if torch.cuda.is_available():
