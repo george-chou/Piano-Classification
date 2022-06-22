@@ -17,7 +17,7 @@ import argparse
 import warnings
 warnings.filterwarnings("ignore")
 
-backbone_network = 'resnext101_32x8d'
+backbone_network = 'wide_resnet101_2'
 
 
 def eval_model_train(model, trainLoader, device, tra_acc_list):
