@@ -204,4 +204,4 @@ if __name__ == "__main__":
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 
-    train(epoch_num=40)
+    train(epoch_num=1)
