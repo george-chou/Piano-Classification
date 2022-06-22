@@ -73,6 +73,7 @@ def eval(log_dir='./logs', history=''):
 
     with torch.no_grad():
         output = model(input)
+        print(output)
         pred_id = torch.max(output.data, 1)[1]
         predict = classes[pred_id]
         print(predict)

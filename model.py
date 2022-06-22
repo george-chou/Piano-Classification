@@ -57,7 +57,7 @@ def url_download(url: str, fname: str):
             bar.update(size)
 
 
-def download_model(backbone='alexnet'):
+def download_model(backbone='inception_v3'):
     pre_model_url = model_urls[backbone]
     model_dir = './model/'
     pre_model_path = model_dir + (pre_model_url.split('/')[-1])
@@ -85,7 +85,7 @@ def Classifier(num_fits=1024):
     )
 
 
-def Net(backbone='alexnet'):
+def Net(backbone='inception_v3'):
     model = eval('models.%s()' % backbone)
     pre_model_path = download_model(backbone)
     model.load_state_dict(torch.load(pre_model_path))
