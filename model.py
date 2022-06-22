@@ -57,7 +57,7 @@ def url_download(url: str, fname: str):
             bar.update(size)
 
 
-def download_model(backbone='alexnet'):
+def download_model(backbone='googlenet'):
     pre_model_url = model_urls[backbone]
     model_dir = './model/'
     pre_model_path = model_dir + (pre_model_url.split('/')[-1])
@@ -85,7 +85,7 @@ def Classifier(num_fits):
     )
 
 
-def Net(backbone='alexnet'):
+def Net(backbone='googlenet'):
     model = eval('models.%s()' % backbone)
     pre_model_path = download_model(backbone)
     model.load_state_dict(torch.load(pre_model_path))
@@ -94,7 +94,7 @@ def Net(backbone='alexnet'):
         parma.requires_grad = False
 
     num_fits = model.fc.in_features
-    model.fc = Classifier(num_fits)
+    model.fc = Classifier(num_fits)  # 1024
     model.train()
 
     return model
