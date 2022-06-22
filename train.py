@@ -138,7 +138,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
     # init model
     model = Net(backbone=args.model)
-    print(model)
+    # print(model)
 
     #optimizer and loss
     criterion = nn.CrossEntropyLoss()
@@ -200,7 +200,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='resnet152',
+    parser.add_argument('--model', type=str, default='resnext101_32x8d',
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 
