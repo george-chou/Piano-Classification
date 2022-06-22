@@ -17,6 +17,8 @@ import argparse
 import warnings
 warnings.filterwarnings("ignore")
 
+backbone_network = 'resnext101_32x8d'
+
 
 def eval_model_train(model, trainLoader, device, tra_acc_list):
     y_true, y_pred = [], []
@@ -102,7 +104,7 @@ def save_log(start_time, finish_time, cls_report, cm, log_dir):
 
 
 def save_history(model, tra_acc_list, val_acc_list, loss_list, lr_list, cls_report, cm, start_time, finish_time):
-
+    create_dir('./logs')
     log_dir = './logs/history_' + time_stamp()
     create_dir(log_dir)
 
@@ -200,8 +202,8 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='resnext101_32x8d',
+    parser.add_argument('--model', type=str, default=backbone_network,
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 
-    train(epoch_num=40)
+    train(epoch_num=1)
