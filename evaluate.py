@@ -29,7 +29,7 @@ def embed(audio_path):
 
 def embed_img(img_path, rm_cache=True):
     transform = transforms.Compose([
-        transforms.Resize([224, 224]),
+        transforms.Resize([299, 299]),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
@@ -63,7 +63,7 @@ def eval(log_dir='./logs', history=''):
         print('No history found, start a new term of training...')
         train()
 
-    model = Net_eval(saved_model_path, 'alexnet')
+    model = Net_eval(saved_model_path, 'inception_v3')
     input = embed(tag).unsqueeze(0)
 
     if torch.cuda.is_available():
@@ -73,7 +73,6 @@ def eval(log_dir='./logs', history=''):
 
     with torch.no_grad():
         output = model(input)
-        print(output)
         pred_id = torch.max(output.data, 1)[1]
         predict = classes[pred_id]
         print(predict)
@@ -82,7 +81,7 @@ def eval(log_dir='./logs', history=''):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='predict')
     parser.add_argument('--target', type=str,
-                        default='./test/KAWAI.wav', help='Select wav to be predicted.')
+                        default='./test/KAWAI-E1.wav', help='Select wav to be predicted.')
     parser.add_argument('--log', type=str,
                         default='', help='Select a training history.')
     args = parser.parse_args()

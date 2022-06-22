@@ -23,7 +23,7 @@ def eval_model_train(model, trainLoader, device, tra_acc_list):
     with torch.no_grad():
         for data in trainLoader:
             images, labels = data[0].to(device), data[1].to(device)
-            outputs = model(images)
+            outputs, _ = model(images)
             _, predicted = torch.max(outputs.data, 1)
             y_true.extend(labels.tolist())
             y_pred.extend(predicted.tolist())
@@ -38,7 +38,7 @@ def eval_model_valid(model, validationLoader, device, val_acc_list):
     with torch.no_grad():
         for data in validationLoader:
             images, labels = data[0].to(device), data[1].to(device)
-            outputs = model(images)
+            outputs, _ = model(images)
             _, predicted = torch.max(outputs.data, 1)
             y_true.extend(labels.tolist())
             y_pred.extend(predicted.tolist())
@@ -53,7 +53,7 @@ def eval_model_test(model, testLoader, device):
     with torch.no_grad():
         for data in testLoader:
             images, labels = data[0].to(device), data[1].to(device)
-            outputs = model(images)
+            outputs, _ = model(images)
             _, predicted = torch.max(outputs.data, 1)
             y_true.extend(labels.tolist())
             y_pred.extend(predicted.tolist())
@@ -102,7 +102,7 @@ def save_log(start_time, finish_time, cls_report, cm, log_dir):
 
 
 def save_history(model, tra_acc_list, val_acc_list, loss_list, lr_list, cls_report, cm, start_time, finish_time):
-
+    create_dir('./logs')
     log_dir = './logs/history_' + time_stamp()
     create_dir(log_dir)
 
@@ -175,7 +175,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs, _, _ = model(inputs)
+            outputs, _, = model(inputs)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
@@ -200,7 +200,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='googlenet',
+    parser.add_argument('--model', type=str, default='inception_v3',
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 

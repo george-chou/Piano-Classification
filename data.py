@@ -89,7 +89,7 @@ def create_dir(dir):
 def embedding(file_path):
     # dataset
     transform = transforms.Compose([
-        transforms.Resize([224, 224]),
+        transforms.Resize([299, 299]),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
@@ -97,7 +97,7 @@ def embedding(file_path):
     ])
 
     inputSet = ImageFolder(file_path,  transform=transform)
-    return torch.utils.data.DataLoader(inputSet, batch_size=4, shuffle=True, num_workers=2)
+    return torch.utils.data.DataLoader(inputSet, batch_size=4, shuffle=True, num_workers=2, drop_last=True)
 
 
 def load_data(img_dir, data_dir, force_reload=True):
