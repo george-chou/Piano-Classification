@@ -29,7 +29,7 @@ def embed(audio_path):
 
 def embed_img(img_path, rm_cache=True):
     transform = transforms.Compose([
-        # transforms.Resize([224, 224]),
+        transforms.Resize([224, 224]),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),

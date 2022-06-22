@@ -78,19 +78,8 @@ def Net(backbone='alexnet'):
     for parma in model.parameters():
         parma.requires_grad = False
 
-    model.classifier = torch.nn.Sequential(
-        nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 1000),
-        nn.ReLU(inplace=True),
-        nn.Linear(1000, len(classes))
-    )
-
+    num_fits = model.fc.in_features
+    model.fc = nn.Linear(num_fits, len(classes))
     model.train()
 
     return model
@@ -99,19 +88,8 @@ def Net(backbone='alexnet'):
 def Net_eval(saved_model_path, backbone):
 
     model = eval('models.%s()' % backbone)
-    model.classifier = torch.nn.Sequential(
-        nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 1000),
-        nn.ReLU(inplace=True),
-        nn.Linear(1000, len(classes))
-    )
-
+    num_fits = model.fc.in_features
+    model.fc = nn.Linear(num_fits, len(classes))
     checkpoint = torch.load(saved_model_path)
     model.load_state_dict(checkpoint, False)
     model.eval()

@@ -138,12 +138,12 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
     # init model
     model = Net(backbone=args.model)
-    # print(model)
+    print(model)
 
     #optimizer and loss
     criterion = nn.CrossEntropyLoss()
     # criterion = FocalLoss(class_num=len(classes))
-    optimizer = optim.SGD(model.classifier.parameters(), lr, momentum=0.9)
+    optimizer = optim.SGD(model.fc.parameters(), lr, momentum=0.9)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode='min', factor=0.1, patience=5, verbose=True,
         threshold=lr, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
@@ -200,7 +200,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='alexnet',
+    parser.add_argument('--model', type=str, default='resnet152',
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 
