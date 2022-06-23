@@ -27,7 +27,7 @@ cd Piano-Classification
 python train.py
 ```
 
-### Draw training curves
+### Plot results
 
 ```
 python plotter.py
