@@ -89,7 +89,7 @@ def create_dir(dir):
 def embedding(file_path):
     # dataset
     transform = transforms.Compose([
-        # transforms.Resize([224, 224]),
+        transforms.Resize([224, 224]),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),

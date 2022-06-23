@@ -17,6 +17,8 @@ import argparse
 import warnings
 warnings.filterwarnings("ignore")
 
+backbone_network = 'shufflenet_v2_x1_0'
+
 
 def eval_model_train(model, trainLoader, device, tra_acc_list):
     y_true, y_pred = [], []
@@ -102,7 +104,7 @@ def save_log(start_time, finish_time, cls_report, cm, log_dir):
 
 
 def save_history(model, tra_acc_list, val_acc_list, loss_list, lr_list, cls_report, cm, start_time, finish_time):
-
+    create_dir('./logs')
     log_dir = './logs/history_' + time_stamp()
     create_dir(log_dir)
 
@@ -143,7 +145,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
     #optimizer and loss
     criterion = nn.CrossEntropyLoss()
     # criterion = FocalLoss(class_num=len(classes))
-    optimizer = optim.SGD(model.classifier.parameters(), lr, momentum=0.9)
+    optimizer = optim.SGD(model.fc.parameters(), lr, momentum=0.9)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode='min', factor=0.1, patience=5, verbose=True,
         threshold=lr, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08)
@@ -200,8 +202,8 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='alexnet',
+    parser.add_argument('--model', type=str, default=backbone_network,
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 
-    train(epoch_num=40)
+    train(epoch_num=1)

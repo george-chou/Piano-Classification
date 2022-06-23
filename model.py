@@ -32,10 +32,10 @@ model_urls = {
     'densenet169': 'https://download.pytorch.org/models/densenet169-b2777c0a.pth',
     'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
     'densenet161': 'https://download.pytorch.org/models/densenet161-8d451a50.pth',
-    'inception_v3_google': 'https://download.pytorch.org/models/inception_v3_google-1a9a5a14.pth',
+    'inception_v3': 'https://download.pytorch.org/models/inception_v3_google-1a9a5a14.pth',
     'googlenet': 'https://download.pytorch.org/models/googlenet-1378be20.pth',
-    'shufflenetv2_x0.5': 'https://download.pytorch.org/models/shufflenetv2_x0.5-f707e7126e.pth',
-    'shufflenetv2_x1.0': 'https://download.pytorch.org/models/shufflenetv2_x1-5666bf0f80.pth',
+    'shufflenet_v2_x0_5': 'https://download.pytorch.org/models/shufflenetv2_x0.5-f707e7126e.pth',
+    'shufflenet_v2_x1_0': 'https://download.pytorch.org/models/shufflenetv2_x1-5666bf0f80.pth',
     'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth',
     "mnasnet0_5": "https://download.pytorch.org/models/mnasnet0.5_top1_67.823-3ffadce67e.pth",
     "mnasnet1_0": "https://download.pytorch.org/models/mnasnet1.0_top1_73.512-f206786ef8.pth"
@@ -57,7 +57,7 @@ def url_download(url: str, fname: str):
             bar.update(size)
 
 
-def download_model(backbone='alexnet'):
+def download_model(backbone='shufflenetv2_x1_0'):
     pre_model_url = model_urls[backbone]
     model_dir = './model/'
     pre_model_path = model_dir + (pre_model_url.split('/')[-1])
@@ -70,7 +70,21 @@ def download_model(backbone='alexnet'):
     return pre_model_path
 
 
-def Net(backbone='alexnet'):
+def Classifier():
+    return torch.nn.Sequential(
+        nn.Linear(in_features=1024, out_features=1000, bias=True),
+        nn.ReLU(inplace=True),
+        nn.Dropout(),
+        nn.Linear(1000, 1000),
+        nn.ReLU(inplace=True),
+        nn.Dropout(),
+        nn.Linear(1000, 256),
+        nn.ReLU(inplace=True),
+        nn.Linear(256, len(classes))
+    )
+
+
+def Net(backbone='shufflenetv2_x1_0'):
     model = eval('models.%s()' % backbone)
     pre_model_path = download_model(backbone)
     model.load_state_dict(torch.load(pre_model_path))
@@ -78,19 +92,7 @@ def Net(backbone='alexnet'):
     for parma in model.parameters():
         parma.requires_grad = False
 
-    model.classifier = torch.nn.Sequential(
-        nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 1000),
-        nn.ReLU(inplace=True),
-        nn.Linear(1000, len(classes))
-    )
-
+    model.fc = Classifier()
     model.train()
 
     return model
@@ -99,19 +101,7 @@ def Net(backbone='alexnet'):
 def Net_eval(saved_model_path, backbone):
 
     model = eval('models.%s()' % backbone)
-    model.classifier = torch.nn.Sequential(
-        nn.Dropout(),
-        nn.Linear(256 * 6 * 6, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 4096),
-        nn.ReLU(inplace=True),
-        nn.Dropout(),
-        nn.Linear(4096, 1000),
-        nn.ReLU(inplace=True),
-        nn.Linear(1000, len(classes))
-    )
-
+    model.fc = Classifier()
     checkpoint = torch.load(saved_model_path)
     model.load_state_dict(checkpoint, False)
     model.eval()
