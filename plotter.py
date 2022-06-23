@@ -90,7 +90,15 @@ def plot_loss(loss_list):
 
 
 def get_latest_log(path):
+    if not os.path.exists(path):
+        print('Please train a model first.')
+        exit()
+
     lists = os.listdir(path)
+    if len(lists) == 0:
+        print('No history found in logs.')
+        exit()
+
     lists.sort(key=lambda x: os.path.getctime((path + "\\" + x)))
     return '/' + lists[-1]
 

@@ -1,16 +1,16 @@
-from train import train, time_stamp, backbone_network
+from train import train, time_stamp
 import os
 import torch
 import argparse
 import torchvision.transforms as transforms
 from PIL import Image
 from plotter import get_latest_log, valid_path
-from data import get_duration_wav, classes
+from data import get_duration_wav, classes, input_size
 import numpy as np
 import matplotlib.pyplot as plt
 import librosa
 import librosa.display
-from model import Net_eval
+from model import Net_eval, backbone_network
 
 
 def embed(audio_path):
@@ -29,7 +29,7 @@ def embed(audio_path):
 
 def embed_img(img_path, rm_cache=True):
     transform = transforms.Compose([
-        transforms.Resize([192, 192]),
+        transforms.Resize(input_size),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
@@ -86,5 +86,5 @@ if __name__ == "__main__":
     parser.add_argument('--log', type=str,
                         default='', help='Select a training history.')
     args = parser.parse_args()
-    # eval(latest_log=args.log)
-    eval()
+    eval(history=args.log)
+    # eval()
