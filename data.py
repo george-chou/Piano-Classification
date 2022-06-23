@@ -135,12 +135,15 @@ def load_data(img_dir, data_dir, force_reload=True):
         val_test = random.sample(filenames, p20)
         trainset = list(set(filenames) - set(val_test))
 
+        print('Copying validation data...')
         for i in range(p10):
             copy_img(val_test[i], val_dir)
 
+        print('Copying test data...')
         for i in range(p10, p20):
             copy_img(val_test[i], tes_dir)
 
+        print('Copying training data...')
         for filename in trainset:
             copy_img(filename, tra_dir)
 
