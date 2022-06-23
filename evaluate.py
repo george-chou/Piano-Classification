@@ -86,5 +86,5 @@ if __name__ == "__main__":
     parser.add_argument('--log', type=str,
                         default='', help='Select a training history.')
     args = parser.parse_args()
-    # eval(latest_log=args.log)
-    eval()
+    eval(history=args.log)
+    # eval()
