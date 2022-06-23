@@ -1,6 +1,6 @@
 # AlexNet-Piano-Classification
 
-Classify piano acoustic fidelity by AlexNet
+Classify piano sound quality
 
 <!-- [![license](https://img.shields.io/github/license/george-chou/AlexNet-Piano-Classification.svg)](https://github.com/george-chou/AlexNet-Piano-Classification/blob/master/LICENSE)
 [![Python application](https://github.com/george-chou/AlexNet-Piano-Classification/workflows/Python%20application/badge.svg)](https://github.com/george-chou/AlexNet-Piano-Classification/actions)
