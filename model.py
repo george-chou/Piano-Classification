@@ -70,6 +70,20 @@ def download_model(backbone='alexnet'):
     return pre_model_path
 
 
+def Classifier():
+    return torch.nn.Sequential(
+        nn.Linear(in_features=2048, out_features=1000, bias=True),
+        nn.ReLU(inplace=True),
+        nn.Dropout(),
+        nn.Linear(1000, 1000),
+        nn.ReLU(inplace=True),
+        nn.Dropout(),
+        nn.Linear(1000, 256),
+        nn.ReLU(inplace=True),
+        nn.Linear(256, len(classes))
+    )
+
+
 def Net(backbone='alexnet'):
     model = eval('models.%s()' % backbone)
     pre_model_path = download_model(backbone)
@@ -78,8 +92,7 @@ def Net(backbone='alexnet'):
     for parma in model.parameters():
         parma.requires_grad = False
 
-    num_fits = model.fc.in_features
-    model.fc = nn.Linear(num_fits, len(classes))
+    model.fc = Classifier()
     model.train()
 
     return model
@@ -88,8 +101,7 @@ def Net(backbone='alexnet'):
 def Net_eval(saved_model_path, backbone):
 
     model = eval('models.%s()' % backbone)
-    num_fits = model.fc.in_features
-    model.fc = nn.Linear(num_fits, len(classes))
+    model.fc = Classifier()
     checkpoint = torch.load(saved_model_path)
     model.load_state_dict(checkpoint, False)
     model.eval()

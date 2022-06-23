@@ -140,7 +140,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
     # init model
     model = Net(backbone=args.model)
-    # print(model)
+    # print(model.fc)
 
     #optimizer and loss
     criterion = nn.CrossEntropyLoss()
