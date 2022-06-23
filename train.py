@@ -7,7 +7,7 @@ import torch.nn as nn
 from datetime import datetime
 import torch.utils.data
 import torch.optim as optim
-from model import Net
+from model import Net, backbone_network
 from data import prepare_data, create_dir, classes
 from focaloss import FocalLoss
 from plotter import save_acc, save_loss, save_confusion_matrix
@@ -16,8 +16,6 @@ import numpy as np
 import argparse
 import warnings
 warnings.filterwarnings("ignore")
-
-backbone_network = 'squeezenet1_1'
 
 
 def eval_model_train(model, trainLoader, device, tra_acc_list):
