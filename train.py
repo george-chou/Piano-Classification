@@ -7,7 +7,7 @@ import torch.nn as nn
 from datetime import datetime
 import torch.utils.data
 import torch.optim as optim
-from model import Net
+from model import Net, backbone_network
 from data import prepare_data, create_dir, classes
 from focaloss import FocalLoss
 from plotter import save_acc, save_loss, save_confusion_matrix
@@ -200,7 +200,7 @@ def train(epoch_num=40, iteration=10, lr=0.001):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train')
-    parser.add_argument('--model', type=str, default='inception_v3',
+    parser.add_argument('--model', type=str, default=backbone_network,
                         help='Select a pre-trained model.')
     args = parser.parse_args()
 

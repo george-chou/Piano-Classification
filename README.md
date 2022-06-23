@@ -1,14 +1,14 @@
-# AlexNet-Piano-Classification
+# Piano-Classification
 
 Classify piano acoustic fidelity by AlexNet
 
-<!-- [![license](https://img.shields.io/github/license/george-chou/AlexNet-Piano-Classification.svg)](https://github.com/george-chou/AlexNet-Piano-Classification/blob/master/LICENSE)
-[![Python application](https://github.com/george-chou/AlexNet-Piano-Classification/workflows/Python%20application/badge.svg)](https://github.com/george-chou/AlexNet-Piano-Classification/actions)
-[![Github All Releases](https://img.shields.io/github/downloads-pre/george-chou/AlexNet-Piano-Classification/v1.2/total)](https://github.com/george-chou/AlexNet-Piano-Classification/releases) -->
+<!-- [![license](https://img.shields.io/github/license/george-chou/Piano-Classification.svg)](https://github.com/george-chou/Piano-Classification/blob/master/LICENSE)
+[![Python application](https://github.com/george-chou/Piano-Classification/workflows/Python%20application/badge.svg)](https://github.com/george-chou/Piano-Classification/actions)
+[![Github All Releases](https://img.shields.io/github/downloads-pre/george-chou/Piano-Classification/v1.2/total)](https://github.com/george-chou/Piano-Classification/releases) -->
 
 ## Dataset
 
-Download at <https://github.com/george-chou/AlexNet-Piano-Classification/releases/download/v0.1/audio.zip>
+Download at <https://github.com/george-chou/Piano-Classification/releases/download/v0.1/audio.zip>
 
 Extract it into the project directory
 
@@ -17,8 +17,8 @@ Extract it into the project directory
 ### Download
 
 ```
-git clone https://github.com/george-chou/AlexNet-Piano-Classification.git
-cd AlexNet-Piano-Classification
+git clone -b inception https://github.com/george-chou/Piano-Classification.git
+cd Piano-Classification
 ```
 
 ### Train
@@ -27,7 +27,7 @@ cd AlexNet-Piano-Classification
 python train.py
 ```
 
-### Draw training curves
+### Plot results
 
 ```
 python plotter.py

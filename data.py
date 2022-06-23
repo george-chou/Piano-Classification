@@ -21,8 +21,19 @@ tra_dir = data_dir + '/tra'
 val_dir = data_dir + '/val'
 tes_dir = data_dir + '/tes'
 
-classes = ['ZhuJiang', 'Old-YingChang', 'Steinway-Theater',
-           'StarSea', 'KAWAI', 'Steinway', 'KAWAI-Tri']
+input_size = [299, 299]
+
+
+def load_cls():
+    cls = []
+    for _, dirnames, _ in os.walk(audio_dir):
+        for dirname in dirnames:
+            cls.append(dirname.split('_')[-1])
+
+    return cls
+
+
+classes = load_cls()
 
 
 def unzip_file(zip_src, dst_dir):
@@ -89,7 +100,7 @@ def create_dir(dir):
 def embedding(file_path):
     # dataset
     transform = transforms.Compose([
-        transforms.Resize([299, 299]),
+        transforms.Resize(input_size),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
@@ -124,12 +135,15 @@ def load_data(img_dir, data_dir, force_reload=True):
         val_test = random.sample(filenames, p20)
         trainset = list(set(filenames) - set(val_test))
 
+        print('Copying validation data...')
         for i in range(p10):
             copy_img(val_test[i], val_dir)
 
+        print('Copying test data...')
         for i in range(p10, p20):
             copy_img(val_test[i], tes_dir)
 
+        print('Copying training data...')
         for filename in trainset:
             copy_img(filename, tra_dir)
 
