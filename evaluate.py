@@ -5,12 +5,12 @@ import argparse
 import torchvision.transforms as transforms
 from PIL import Image
 from plotter import get_latest_log, valid_path
-from data import get_duration_wav, classes
+from data import get_duration_wav, classes, input_size
 import numpy as np
 import matplotlib.pyplot as plt
 import librosa
 import librosa.display
-from model import Net_eval
+from model import Net_eval, backbone_network
 
 
 def embed(audio_path):
@@ -29,7 +29,7 @@ def embed(audio_path):
 
 def embed_img(img_path, rm_cache=True):
     transform = transforms.Compose([
-        transforms.Resize([224, 224]),
+        transforms.Resize(input_size),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
@@ -63,7 +63,7 @@ def eval(log_dir='./logs', history=''):
         print('No history found, start a new term of training...')
         train()
 
-    model = Net_eval(saved_model_path, 'googlenet')
+    model = Net_eval(saved_model_path, backbone_network)
     input = embed(tag).unsqueeze(0)
 
     if torch.cuda.is_available():
