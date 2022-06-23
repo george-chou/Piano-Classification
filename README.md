@@ -1,6 +1,6 @@
-# AlexNet-Piano-Classification
+# Piano-Classification
 
-Classify piano acoustic fidelity by AlexNet
+Classify piano sound quality
 
 <!-- [![license](https://img.shields.io/github/license/george-chou/AlexNet-Piano-Classification.svg)](https://github.com/george-chou/AlexNet-Piano-Classification/blob/master/LICENSE)
 [![Python application](https://github.com/george-chou/AlexNet-Piano-Classification/workflows/Python%20application/badge.svg)](https://github.com/george-chou/AlexNet-Piano-Classification/actions)
@@ -8,7 +8,7 @@ Classify piano acoustic fidelity by AlexNet
 
 ## Dataset
 
-Download at <https://github.com/george-chou/AlexNet-Piano-Classification/releases/download/v0.1/audio.zip>
+Download at <https://github.com/george-chou/Piano-Classification/releases/download/v0.1/audio.zip>
 
 Extract it into the project directory
 
@@ -17,8 +17,8 @@ Extract it into the project directory
 ### Download
 
 ```
-git clone https://github.com/george-chou/AlexNet-Piano-Classification.git
-cd AlexNet-Piano-Classification
+git clone -b mobilenet https://github.com/george-chou/Piano-Classification.git
+cd Piano-Classification
 ```
 
 ### Train
