@@ -21,8 +21,19 @@ tra_dir = data_dir + '/tra'
 val_dir = data_dir + '/val'
 tes_dir = data_dir + '/tes'
 
-classes = ['ZhuJiang', 'Old-YingChang', 'Steinway-Theater',
-           'StarSea', 'KAWAI', 'Steinway', 'KAWAI-Tri']
+input_size = [224, 224]
+
+
+def load_cls():
+    cls = []
+    for _, dirnames, _ in os.walk(audio_dir):
+        for dirname in dirnames:
+            cls.append(dirname.split('_')[-1])
+
+    return cls
+
+
+classes = load_cls()
 
 
 def unzip_file(zip_src, dst_dir):
@@ -89,7 +100,7 @@ def create_dir(dir):
 def embedding(file_path):
     # dataset
     transform = transforms.Compose([
-        transforms.Resize([224, 224]),
+        transforms.Resize(input_size),
         # transforms.CenterCrop(300),
         # transforms.RandomAffine(5),
         transforms.ToTensor(),
